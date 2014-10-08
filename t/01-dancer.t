@@ -88,6 +88,7 @@ test_psgi
             ### callback
             $res = $cb->(GET "/auth_test/$provider/callback?oauth_token=foo&oauth_verifier=bar&code=foobar"); # mixing oauth versions
             ok($res->code == 302, "[$provider][cb] Response code (302)");
+            ok($res->header('Location') eq 'http://localhost/users', "[$provider] success_url setting");
 
             my $cookie = $res->header('Set-Cookie');
                $cookie =~ s/;.*$//;
@@ -124,8 +125,7 @@ test_psgi
             );
             $res = $cb->(GET "/dump_session", ( Cookie => $cookie ));
             my $session = JSON::Any->new->jsonToObj( $res->content );
-            is_deeply( $session->{$provider}, $wanted_session{$provider}, "[$provider] Session data")
-                || diag explain $session->{$provider};
+            is_deeply( $session->{$provider}, $wanted_session{$provider}, "[$provider] Session data");
         }
 
     };

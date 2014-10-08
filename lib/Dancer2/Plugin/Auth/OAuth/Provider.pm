@@ -35,7 +35,7 @@ sub post_process {
     # Provider:: module should override this if needed/wanted
     my $self = shift;
 
-    return;
+    return 1;
 }
 
 sub _provider {
@@ -152,9 +152,6 @@ sub callback {
             };
         }
     } else {
-$self->ua->add_handler("request_send",  sub { shift->dump; return });
-$self->ua->add_handler("response_done", sub { shift->dump; return });
-
         my $uri  = URI->new( $self->provider_settings->{urls}{access_token_url} );
         my %args = (
                 client_id     => $self->provider_settings->{tokens}{client_id},

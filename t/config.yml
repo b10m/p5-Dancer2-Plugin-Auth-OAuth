@@ -2,6 +2,8 @@ session: Simple
 plugins:
   "Auth::OAuth":
     prefix: /auth_test
+    success_url: /users
+    error_url: /?error=1
     providers:
       Twitter:
         tokens:
