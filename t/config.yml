@@ -1,0 +1,18 @@
+session: Simple
+plugins:
+  "Auth::OAuth":
+    prefix: /auth_test
+    providers:
+      Twitter:
+        tokens:
+          consumer_key: consumer_key
+          consumer_secret: consumer_s3kr3t
+      Facebook:
+        tokens:
+          client_id: some_client_id
+          client_secret: some_client_s3kr3t
+      Google:
+        tokens:
+          client_id: some_client_id
+          client_secret: some_client_s3kr3t
+
