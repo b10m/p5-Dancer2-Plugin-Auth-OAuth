@@ -80,6 +80,8 @@ OAuth modules, but unlike the Dancer 1 versions, this plugin only needs
 configuration (look mom, no code needed!). It automatically sets up the
 needed routes (defaults to '/auth/<provider>' and '/auth/<provider>/callback'.
 
+After a successful OAuth dance, the user info is stored in the session.
+
 =head1 CONFIGURATION
 
 The plugin comes with support for Facebook, Google and Twitter (other
@@ -90,23 +92,24 @@ the configuration for it.
 
 The YAML below shows all available options.
 
-  "Auth::OAuth":
-    prefix: /auth [*]
-    success_url: / [*]
-    error_url: / [*]
-    providers:
-      Facebook:
-        tokens:
-          client_id: your_client_id
-          client_secret: your_client_secret
-      Google:
-        tokens:
-          client_id: your_client_id
-          client_secret: your_client_secret
-      Twitter:
-        tokens:
-          consumer_key: your_consumer_token
-          consumer_secret: your_consumer_secret
+  plugins:
+    "Auth::OAuth":
+      prefix: /auth [*]
+      success_url: / [*]
+      error_url: / [*]
+      providers:
+        Facebook:
+          tokens:
+            client_id: your_client_id
+            client_secret: your_client_secret
+        Google:
+          tokens:
+            client_id: your_client_id
+            client_secret: your_client_secret
+        Twitter:
+          tokens:
+            consumer_key: your_consumer_token
+            consumer_secret: your_consumer_secret
 
 [*] default value, may be omitted.
 
