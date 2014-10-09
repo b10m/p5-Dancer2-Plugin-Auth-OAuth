@@ -107,8 +107,7 @@ sub authentication_url {
 
             return $uri->as_string;
         } else {
-            use Data::Dumper; die Dumper $request, $res;
-            ...
+            return $self->settings->{error_url} || '/';
         }
     } else {
         # oAuth 2 and up
