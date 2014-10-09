@@ -15,9 +15,12 @@ authentication easy.
 The module is highly influenced by [Plack::Middleware::OAuth](https://metacpan.org/pod/Plack::Middleware::OAuth) and Dancer 1
 OAuth modules, but unlike the Dancer 1 versions, this plugin only needs
 configuration (look mom, no code needed!). It automatically sets up the
-needed routes (defaults to '/auth/<provider>' and '/auth/<provider>/callback'.
+needed routes (defaults to `/auth/$provider` and `/auth/$provider/callback`).
+So if you define the Twitter provider in your config, you should automatically
+get `/auth/twitter` and `/auth/twitter/callback`.
 
-After a successful OAuth dance, the user info is stored in the session.
+After a successful OAuth dance, the user info is stored in the session. What
+you do with it afterwards is up to you.
 
 # CONFIGURATION
 

@@ -1,4 +1,6 @@
 Revision history for Dancer2-Plugin-Auth-OAuth
 
 {{$NEXT}}
+
+0.01  2014-10-09 08:53:07 CEST
         - Initial release
