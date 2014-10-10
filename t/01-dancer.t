@@ -22,6 +22,7 @@ $mock_ua->map(qr{^https://accounts.google.com/o/oauth2/token},    HTTP::Response
 $mock_ua->map(qr{^https://www.googleapis.com/oauth2/v2/userinfo}, HTTP::Response->parse($http_responses{'google-user_info'}));
 $mock_ua->map(qr{^https://api.twitter.com/oauth/request_token},   HTTP::Response->parse($http_responses{'twitter-request_token'}));
 $mock_ua->map(qr{^https://api.twitter.com/oauth/access_token},    HTTP::Response->parse($http_responses{'twitter-access_token'}));
+$mock_ua->map(qr{^https://api.twitter.com/1.1/account/verify},    HTTP::Response->parse($http_responses{'twitter-user_info'}));
 
 # setup dancer app
 {
@@ -99,7 +100,11 @@ test_psgi
                 'twitter' => {
                     'access_token_secret' => 'some_dummy_s3kret',
                     'access_token' => 'some_dummy_token',
-                    'extra' => { 'user_id' => '666', 'screen_name' => 'b10m' }
+                    'extra' => { 'user_id' => '666', 'screen_name' => 'b10m' },
+                    'user_info' => {
+                        'id' => 666, 'id_str' => '666', name => 'Menno Blom',
+                        'screen_name' => 'B10m', 'location' => 'Amsterdam'
+                    }
                 },
                 'facebook' => {
                     'expires' => 666, 'access_token' => 'accesstoken',
