@@ -42,6 +42,19 @@ sub _provider {
     return (split '::', blessed($_[0]))[-1];
 }
 
+sub _stringify_json_booleans {
+    my ($self, $obj) = @_;
+
+    while( my ($k, $v) = each %{$obj} ) {
+        $obj->{$k} = $self->_stringify_json_booleans( $v )
+            if( ref($v) && ref($v) eq 'HASH' );
+        $obj->{$k} = "$v"
+            if( blessed( $v ) );
+    }
+
+    return $obj;
+}
+
 sub _default_args_v1 {
     my $self = shift;
 

@@ -31,7 +31,9 @@ sub post_process {
     );
 
     if( $resp->is_success ) {
-        my $user = JSON::Any->new->decode( $resp->content );
+        my $user = $self->_stringify_json_booleans(
+            JSON::Any->new->decode( $resp->content )
+        );
         $session_data->{facebook}{user_info} = $user;
         $session->write('oauth', $session_data);
     }
