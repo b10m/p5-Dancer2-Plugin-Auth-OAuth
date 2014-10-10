@@ -13,7 +13,7 @@ use URI;
 
 # setup LWP mocking
 my %http_responses;
-for my $file (<"$Bin/responses/*">) {
+for my $file (glob("$Bin/responses/*")) {
     $http_responses{basename($file)} = read_file($file);
 }
 $mock_ua->map(qr{^https://graph.facebook.com/oauth/access_token}, HTTP::Response->parse($http_responses{'facebook-access_token'}));
@@ -79,7 +79,6 @@ test_psgi
             ok($res->code == 302, "[$provider] Response code (302)");
 
             my $got_uri = URI->new($res->header('Location'));
-            #print $got_uri."\n";
             for ( qw(scheme host path) ) {
                 ok($got_uri->$_ eq $wanted_uri->$_, "[$provider] Redirect URL ($_)");
             }
