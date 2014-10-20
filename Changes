@@ -2,6 +2,9 @@ Revision history for Dancer2-Plugin-Auth-OAuth
 
 {{$NEXT}}
 
+0.03  2014-10-20 08:58:46 CEST
+        - Test-only changes
+
 0.02  2014-10-10 22:37:45 CEST
         - Stringifying JSON booleans now as to not upset the session storage
         - Added Twitter user_info support
