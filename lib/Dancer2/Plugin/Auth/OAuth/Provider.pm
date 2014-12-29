@@ -138,6 +138,11 @@ sub authentication_url {
 sub callback {
     my ($self, $request, $session) = @_;
 
+    # this code may be called before authentication_url()
+    # (multiple processes), so we must make sure the base
+    # setting isn't undef
+    $self->settings->{base} ||= $request->uri_base;
+
     my $provider = lc $self->_provider;
     my $session_data = $session->read('oauth') || {};
 
