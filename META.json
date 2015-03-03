@@ -41,7 +41,7 @@
             "DateTime" : "0",
             "Digest::MD5" : "0",
             "File::Slurp" : "0",
-            "JSON::Any" : "0",
+            "JSON::MaybeXS" : "0",
             "Module::Load" : "0",
             "Net::OAuth" : "0",
             "Scalar::Util" : "0",
@@ -69,7 +69,7 @@
          "web" : "https://github.com/b10m/p5-Dancer2-Plugin-Auth-OAuth"
       }
    },
-   "version" : "0.04",
+   "version" : "0.05",
    "x_contributors" : [
       "B10m <menno@b10m.net>"
    ]

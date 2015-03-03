@@ -6,7 +6,7 @@ use warnings;
 use DateTime;
 use Digest::MD5 qw(md5_hex);
 use HTTP::Request::Common;
-use JSON::Any;
+use JSON::MaybeXS;
 use LWP::UserAgent;
 use Net::OAuth;
 use Scalar::Util qw( blessed );
@@ -183,7 +183,7 @@ sub callback {
             my $content_type = $response->header('Content-Type');
             my $params = {};
             if( $content_type =~ m/json/ || $content_type =~ m/javascript/ ) {
-                $params = JSON::Any->new->decode( $response->content );
+                $params = decode_json( $response->content );
             } else {
                 $params = URI::Query->new( $response->content )->hash;
             }

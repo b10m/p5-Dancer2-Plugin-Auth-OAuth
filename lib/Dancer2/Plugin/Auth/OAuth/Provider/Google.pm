@@ -32,7 +32,7 @@ sub post_process {
 
     if( $resp->is_success ) {
         my $user = $self->_stringify_json_booleans(
-            JSON::Any->new->decode( $resp->decoded_content )
+            JSON::MaybeXS::decode_json( $resp->decoded_content )
         );
         $session_data->{google}{user_info} = $user;
         $session->write('oauth', $session_data);

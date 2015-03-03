@@ -1,6 +1,7 @@
 Revision history for Dancer2-Plugin-Auth-OAuth
 
 {{$NEXT}}
+        - moved from JSON::Any to JSON::MaybeXS
 
 0.04  2014-12-29 19:02:52 CET
         - fixed undef `base' setting

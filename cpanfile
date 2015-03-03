@@ -3,7 +3,7 @@ requires 'Dancer2', '0.150000';
 requires 'DateTime';
 requires 'Digest::MD5';
 requires 'File::Slurp';
-requires 'JSON::Any';
+requires 'JSON::MaybeXS';
 requires 'Module::Load';
 requires 'Net::OAuth';
 requires 'Scalar::Util';

@@ -4,7 +4,7 @@ use File::Basename;
 use File::Slurp qw( read_file );
 use FindBin qw( $Bin );
 use HTTP::Request::Common;
-use JSON::Any;
+use JSON::MaybeXS;
 use Module::Load;
 use Plack::Test;
 use Test::More;
@@ -128,7 +128,7 @@ test_psgi
                 },
             );
             $res = $cb->(GET "/dump_session", ( Cookie => $cookie ));
-            my $session = JSON::Any->new->jsonToObj( $res->content );
+            my $session = decode_json( $res->content );
             is_deeply( $session->{$provider}, $wanted_session{$provider}, "[$provider] Session data");
         }
 

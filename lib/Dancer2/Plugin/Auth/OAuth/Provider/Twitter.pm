@@ -31,7 +31,7 @@ sub post_process {
     my $resp = $self->ua->request(GET $request->to_url);
     if ($resp->is_success) {
         my $user = $self->_stringify_json_booleans(
-            JSON::Any->new->decode( $resp->decoded_content )
+            JSON::MaybeXS::decode_json( $resp->decoded_content )
         );
         $session_data->{twitter}{user_info} = $user;
         $session->write('oauth', $session_data);
