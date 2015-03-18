@@ -2,6 +2,9 @@ Revision history for Dancer2-Plugin-Auth-OAuth
 
 {{$NEXT}}
 
+0.06  2015-03-18 08:41:33 CET
+        - moved from File::Slurp to Path::Tiny
+
 0.05  2015-03-03 22:00:58 CET
         - moved from JSON::Any to JSON::MaybeXS
 
