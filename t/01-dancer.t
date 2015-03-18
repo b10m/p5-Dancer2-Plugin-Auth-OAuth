@@ -1,7 +1,7 @@
 use strict;
 
 use File::Basename;
-use File::Slurp qw( read_file );
+use Path::Tiny;
 use FindBin qw( $Bin );
 use HTTP::Request::Common;
 use JSON::MaybeXS;
@@ -14,7 +14,7 @@ use URI;
 # setup LWP mocking
 my %http_responses;
 for my $file (glob("$Bin/responses/*")) {
-    $http_responses{basename($file)} = read_file($file);
+    $http_responses{basename($file)} = path($file)->slurp;
 }
 $mock_ua->map(qr{^https://graph.facebook.com/oauth/access_token}, HTTP::Response->parse($http_responses{'facebook-access_token'}));
 $mock_ua->map(qr{^https://graph.facebook.com/me},                 HTTP::Response->parse($http_responses{'facebook-user_info'}));
