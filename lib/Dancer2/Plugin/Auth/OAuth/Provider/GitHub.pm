@@ -1,4 +1,4 @@
-package Dancer2::Plugin::Auth::OAuth::Provider::GitHub;
+package Dancer2::Plugin::Auth::OAuth::Provider::Github;
 
 use strict;
 use parent 'Dancer2::Plugin::Auth::OAuth::Provider';

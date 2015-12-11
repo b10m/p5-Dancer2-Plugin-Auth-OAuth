@@ -1,4 +1,4 @@
-package Dancer2::Plugin::Auth::OAuth::Provider::StackExchange;
+package Dancer2::Plugin::Auth::OAuth::Provider::Stackexchange;
 
 use strict;
 use parent 'Dancer2::Plugin::Auth::OAuth::Provider';
