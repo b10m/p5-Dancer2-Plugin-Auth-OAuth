@@ -21,3 +21,9 @@ plugins:
         tokens:
           client_id: some_client_id
           client_secret: some_client_s3kr3t
+      Stackexchange:
+        tokens:
+          client_id: some_client_id
+          client_secret: some_client_s3kr3t
+          key: some_key
+        site: stackoverflow

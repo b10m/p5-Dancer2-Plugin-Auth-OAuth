@@ -26,8 +26,11 @@ $mock_ua->map(qr{^https://api.twitter.com/oauth/request_token},   HTTP::Response
 $mock_ua->map(qr{^https://api.twitter.com/oauth/access_token},    HTTP::Response->parse($http_responses{'twitter-access_token'}));
 $mock_ua->map(qr{^https://api.twitter.com/1.1/account/verify},    HTTP::Response->parse($http_responses{'twitter-user_info'}));
 
-$mock_ua->map(qr{^https://github.com/login/oauth/access_token}, HTTP::Response->parse($http_responses{'github-access_token'}));
-$mock_ua->map(qr{^https://api.github.com/user},                 HTTP::Response->parse($http_responses{'github-user_info'}));
+$mock_ua->map(qr{^https://github.com/login/oauth/access_token},   HTTP::Response->parse($http_responses{'github-access_token'}));
+$mock_ua->map(qr{^https://api.github.com/user},                   HTTP::Response->parse($http_responses{'github-user_info'}));
+
+$mock_ua->map(qr{^https://stackexchange.com/oauth/access_token},  HTTP::Response->parse($http_responses{'stackexchange-access_token'}));
+$mock_ua->map(qr{^https://api.stackexchange.com/2.2/me},          HTTP::Response->parse($http_responses{'stackexchange-user_info'}));
 
 
 # setup dancer app
@@ -53,7 +56,7 @@ test_psgi
     client => sub {
         my $cb  = shift;
 
-        for my $provider ( qw( facebook google twitter github ) ) {
+        for my $provider (qw(facebook google twitter github stackexchange)) {
             ### setup
             my $provider_module = "Dancer2::Plugin::Auth::OAuth::Provider::".ucfirst($provider);
             load $provider_module;
@@ -80,13 +83,17 @@ test_psgi
                     redirect_uri => "http://localhost/auth_test/$provider/callback",
                     client_id    => 'some_client_id',
                 },
+                stackexchange => {
+                    redirect_uri => "http://localhost/auth_test/$provider/callback",
+                    client_id    => 'some_client_id',
+                },
             );
             my $wanted_uri = URI->new( $provider_module->config->{urls}{authorize_url} );
                $wanted_uri->query_form( $wanted_q{$provider} );
 
             ### login
             my $res = $cb->(GET "/auth_test/$provider");
-            ok($res->code == 302, "[$provider] Response code (302)");
+            is($res->code, 302, "[$provider] Response code (302)");
 
             my $got_uri = URI->new($res->header('Location'));
             for ( qw(scheme host path) ) {
@@ -137,7 +144,7 @@ test_psgi
                      }
                 },
                 github => {
-                    access_token => 'e72e16c7e42f292c6912e7710c838347ae178b4a',
+                    access_token => 'jhj5j4j44jh29dn',
                     token_type => 'bearer',
                     user_info => {
                         login => "octocat",
@@ -177,6 +184,34 @@ test_psgi
                             private_repos => 20,
                             collaborators => 0
                         },
+                    },
+                },
+                stackexchange => {
+                    access_token => '9813893ejsndsn93783',
+                    expires => 1234,
+                    user_info => {
+                        has_more => 0,
+                        quota_max => 10000,
+                        quota_remaining => 9998,
+                        items => [{
+                            badge_counts => {
+                                bronze => 8,
+                                silver => 1,
+                                gold => 0,
+                            },
+                            last_modified_date => 1337656466,
+                            last_access_date => 1449843597,
+                            age => 30,
+                            reputation_change_year => 39,
+                            reputation_change_quarter => -1,
+                            reputation_change_month => 0,
+                            reputation_change_week => 0,
+                            reputation_change_day => 0,
+                            reputation => 157,
+                            creation_date => 1313242661,
+                            user_type => "registered",
+                            location => "Sydney, Australia",
+                        }],
                     },
                 },
             );
