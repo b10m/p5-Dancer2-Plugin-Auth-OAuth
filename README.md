@@ -51,11 +51,11 @@ The YAML below shows all available options.
             tokens:
               consumer_key: your_consumer_token
               consumer_secret: your_consumer_secret
-          GitHub:
+          Github:
             tokens:
               client_id: your_client_id
               client_secret: your_client_secret
-          StackExchange:
+          Stackexchange:
             tokens:
               client_id: your_client_id
               client_secret: your_client_secret
