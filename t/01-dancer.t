@@ -18,11 +18,20 @@ for my $file (glob("$Bin/responses/*")) {
 }
 $mock_ua->map(qr{^https://graph.facebook.com/oauth/access_token}, HTTP::Response->parse($http_responses{'facebook-access_token'}));
 $mock_ua->map(qr{^https://graph.facebook.com/me},                 HTTP::Response->parse($http_responses{'facebook-user_info'}));
+
 $mock_ua->map(qr{^https://accounts.google.com/o/oauth2/token},    HTTP::Response->parse($http_responses{'google-access_token'}));
 $mock_ua->map(qr{^https://www.googleapis.com/oauth2/v2/userinfo}, HTTP::Response->parse($http_responses{'google-user_info'}));
+
 $mock_ua->map(qr{^https://api.twitter.com/oauth/request_token},   HTTP::Response->parse($http_responses{'twitter-request_token'}));
 $mock_ua->map(qr{^https://api.twitter.com/oauth/access_token},    HTTP::Response->parse($http_responses{'twitter-access_token'}));
 $mock_ua->map(qr{^https://api.twitter.com/1.1/account/verify},    HTTP::Response->parse($http_responses{'twitter-user_info'}));
+
+$mock_ua->map(qr{^https://github.com/login/oauth/access_token},   HTTP::Response->parse($http_responses{'github-access_token'}));
+$mock_ua->map(qr{^https://api.github.com/user},                   HTTP::Response->parse($http_responses{'github-user_info'}));
+
+$mock_ua->map(qr{^https://stackexchange.com/oauth/access_token},  HTTP::Response->parse($http_responses{'stackexchange-access_token'}));
+$mock_ua->map(qr{^https://api.stackexchange.com/2.2/me},          HTTP::Response->parse($http_responses{'stackexchange-user_info'}));
+
 
 # setup dancer app
 {
@@ -47,7 +56,7 @@ test_psgi
     client => sub {
         my $cb  = shift;
 
-        for my $provider ( qw( facebook google twitter ) ) {
+        for my $provider (qw(facebook google twitter github stackexchange)) {
             ### setup
             my $provider_module = "Dancer2::Plugin::Auth::OAuth::Provider::".ucfirst($provider);
             load $provider_module;
@@ -62,13 +71,21 @@ test_psgi
                     response_type=> 'code',
                     scope        => 'email',
                     client_id    => 'some_client_id',
-                    redirect_uri =>  "http://localhost/auth_test/$provider/callback",
+                    redirect_uri => "http://localhost/auth_test/$provider/callback",
                 },
                 google => {
                     response_type=> 'code',
                     scope        => 'openid email',
                     client_id    => 'some_client_id',
-                    redirect_uri =>  "http://localhost/auth_test/$provider/callback",
+                    redirect_uri => "http://localhost/auth_test/$provider/callback",
+                },
+                github => {
+                    redirect_uri => "http://localhost/auth_test/$provider/callback",
+                    client_id    => 'some_client_id',
+                },
+                stackexchange => {
+                    redirect_uri => "http://localhost/auth_test/$provider/callback",
+                    client_id    => 'some_client_id',
                 },
             );
             my $wanted_uri = URI->new( $provider_module->config->{urls}{authorize_url} );
@@ -76,7 +93,7 @@ test_psgi
 
             ### login
             my $res = $cb->(GET "/auth_test/$provider");
-            ok($res->code == 302, "[$provider] Response code (302)");
+            is($res->code, 302, "[$provider] Response code (302)");
 
             my $got_uri = URI->new($res->header('Location'));
             for ( qw(scheme host path) ) {
@@ -88,7 +105,7 @@ test_psgi
             ### callback
             $res = $cb->(GET "/auth_test/$provider/callback?oauth_token=foo&oauth_verifier=bar&code=foobar"); # mixing oauth versions
             ok($res->code == 302, "[$provider][cb] Response code (302)");
-            ok($res->header('Location') eq 'http://localhost/users', "[$provider] success_url setting");
+            is($res->header('Location'), 'http://localhost/users', "[$provider] success_url setting");
 
             my $cookie = $res->header('Set-Cookie');
                $cookie =~ s/;.*$//;
@@ -125,6 +142,77 @@ test_psgi
                          'picture' => 'https://image', 'email' => 'blom@cpan.org',
                          'name' => 'Menno Blom', 'given_name' => 'Menno'
                      }
+                },
+                github => {
+                    access_token => 'jhj5j4j44jh29dn',
+                    token_type => 'bearer',
+                    user_info => {
+                        login => "octocat",
+                        id => 1,
+                        avatar_url => "https://github.com/images/error/octocat_happy.gif",
+                        gravatar_id => "",
+                        url => "https://api.github.com/users/octocat",
+                        html_url => "https://github.com/octocat",
+                        followers_url => "https://api.github.com/users/octocat/followers",
+                        subscriptions_url => "https://api.github.com/users/octocat/subscriptions",
+                        organizations_url => "https://api.github.com/users/octocat/orgs",
+                        repos_url => "https://api.github.com/users/octocat/repos",
+                        received_events_url => "https://api.github.com/users/octocat/received_events",
+                        type => "User",
+                        site_admin => 0,
+                        name => "monalisa octocat",
+                        company => "GitHub",
+                        blog => "https://github.com/blog",
+                        location => "San Francisco",
+                        email => 'octocat@github.com',
+                        hireable => 0,
+                        bio => "There once was...",
+                        public_repos => 2,
+                        public_gists => 1,
+                        followers => 20,
+                        following => 0,
+                        created_at => "2008-01-14T04:33:35Z",
+                        updated_at => "2008-01-14T04:33:35Z",
+                        total_private_repos => 100,
+                        owned_private_repos => 100,
+                        private_gists => 81,
+                        disk_usage => 10000,
+                        collaborators => 8,
+                        plan => {
+                            name => "Medium",
+                            space => 400,
+                            private_repos => 20,
+                            collaborators => 0
+                        },
+                    },
+                },
+                stackexchange => {
+                    access_token => '9813893ejsndsn93783',
+                    expires => 1234,
+                    user_info => {
+                        has_more => 0,
+                        quota_max => 10000,
+                        quota_remaining => 9998,
+                        items => [{
+                            badge_counts => {
+                                bronze => 8,
+                                silver => 1,
+                                gold => 0,
+                            },
+                            last_modified_date => 1337656466,
+                            last_access_date => 1449843597,
+                            age => 30,
+                            reputation_change_year => 39,
+                            reputation_change_quarter => -1,
+                            reputation_change_month => 0,
+                            reputation_change_week => 0,
+                            reputation_change_day => 0,
+                            reputation => 157,
+                            creation_date => 1313242661,
+                            user_type => "registered",
+                            location => "Sydney, Australia",
+                        }],
+                    },
                 },
             );
             $res = $cb->(GET "/dump_session", ( Cookie => $cookie ));
