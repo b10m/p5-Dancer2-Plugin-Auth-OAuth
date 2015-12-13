@@ -51,22 +51,22 @@ The YAML below shows all available options.
             tokens:
               consumer_key: your_consumer_token
               consumer_secret: your_consumer_secret
-          Github:
-            tokens:
-              client_id: your_client_id
-              client_secret: your_client_secret
-          Stackexchange:
-            tokens:
-              client_id: your_client_id
-              client_secret: your_client_secret
-              key: your_key
-            site: stackoverflow
+           Github:
+             tokens:
+               client_id: your_client_id
+               client_secret: your_client_secret
+           Stackexchange:
+             tokens:
+               client_id: your_client_id
+               client_secret: your_client_secret
+               key: your_key
+             site: stackoverflow
 
 \[\*\] default value, may be omitted.
 
 # AUTHOR
 
-Menno Blom <blom@cpan.org>
+Menno Blom &lt;blom@cpan.org>
 
 # COPYRIGHT
 
