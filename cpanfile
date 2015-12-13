@@ -7,6 +7,7 @@ requires 'Module::Load';
 requires 'Net::OAuth';
 requires 'Scalar::Util';
 requires 'URI::Query';
+requires 'HTTP::Message';
 
 on test => sub {
     requires 'Plack::Test';
