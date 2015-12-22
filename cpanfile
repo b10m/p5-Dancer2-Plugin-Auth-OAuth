@@ -8,6 +8,7 @@ requires 'Net::OAuth';
 requires 'Scalar::Util';
 requires 'URI::Query';
 requires 'HTTP::Message';
+requires 'LWP::Protocol::https';
 
 on test => sub {
     requires 'Plack::Test';
