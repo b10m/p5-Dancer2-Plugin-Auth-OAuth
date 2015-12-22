@@ -40,7 +40,9 @@
             "Dancer2" : "0.150000",
             "DateTime" : "0",
             "Digest::MD5" : "0",
+            "HTTP::Message" : "0",
             "JSON::MaybeXS" : "0",
+            "LWP::Protocol::https" : "0",
             "Module::Load" : "0",
             "Net::OAuth" : "0",
             "Scalar::Util" : "0",
@@ -69,11 +71,12 @@
          "web" : "https://github.com/b10m/p5-Dancer2-Plugin-Auth-OAuth"
       }
    },
-   "version" : "0.07",
+   "version" : "0.08",
    "x_contributors" : [
       "B10m <menno@b10m.net>",
       "Keith Broughton <keithbro256@gmail.com>",
-      "Menno Blom <menno.blom@booking.com>"
+      "Menno Blom <menno.blom@booking.com>",
+      "Mohammad S Anwar <mohammad.anwar@yahoo.com>"
    ]
 }
 

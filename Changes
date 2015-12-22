@@ -2,6 +2,9 @@ Revision history for Dancer2-Plugin-Auth-OAuth
 
 {{$NEXT}}
 
+0.08  2015-12-22 08:49:28 CET
+        - fixed missing prereqs as reported by Manwar and biafra
+
 0.07  2015-12-13 12:31:43 CET
         - merged changes from keithbro/github-and-stackexchange
 
