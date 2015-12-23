@@ -11,6 +11,7 @@ use LWP::UserAgent;
 use Net::OAuth;
 use Scalar::Util qw( blessed );
 use URI::Query;
+use Data::Dump qw(pp);
 
 sub new {
     my ($class, $settings) = @_;
@@ -147,7 +148,7 @@ sub callback {
     my $session_data = $session->read('oauth') || {};
 
     if( $self->protocol_version < 2 ) {
-        my $request = Net::OAuth->request( 'access token' )->new(
+        my $at_request = Net::OAuth->request( 'access token' )->new(
            $self->_default_args_v1,
             token          => $request->param('oauth_token'),
             token_secret   => '',
@@ -156,9 +157,9 @@ sub callback {
             request_url    => $self->provider_settings->{urls}{access_token_url},
             request_method => 'POST'
         );
-        $request->sign;
+        $at_request->sign;
 
-        my $ua_response = $self->ua->request( GET $request->to_url );
+        my $ua_response = $self->ua->request( GET $at_request->to_url );
 
         if( $ua_response->is_success ) {
             my $response = Net::OAuth->response( 'access token' )->from_post_body( $ua_response->content );
