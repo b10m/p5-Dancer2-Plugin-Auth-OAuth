@@ -19,7 +19,7 @@ on_plugin_import {
         # load the provider plugin
         my $provider_class = __PACKAGE__."::Provider::".$provider;
         eval { load $provider_class; 1; } or do {
-            $dsl->debug("Couldn't load $provider_class");
+            $dsl->app->log(debug => "Couldn't load $provider_class");
             next;
         };
         $dsl->app->{_oauth}{$provider} ||= $provider_class->new($settings);
@@ -29,7 +29,7 @@ on_plugin_import {
             method => 'get',
             regexp => sprintf( "%s/%s", $settings->{prefix}, lc($provider) ),
             code   => sub {
-                $dsl->redirect(
+                $dsl->app->redirect(
                     $dsl->app->{_oauth}{$provider}->authentication_url(
                         $dsl->app->request->uri_base
                     )
@@ -41,13 +41,13 @@ on_plugin_import {
             regexp => sprintf( "%s/%s/callback", $settings->{prefix}, lc($provider) ),
             code   => sub {
                 my $redirect;
-                if( $dsl->app->{_oauth}{$provider}->callback($dsl->app->request, $dsl->session) ) {
+                if( $dsl->app->{_oauth}{$provider}->callback($dsl->app->request, $dsl->app->session) ) {
                     $redirect = $settings->{success_url} || '/';
                 } else {
                     $redirect = $settings->{error_url}   || '/';
                 }
 
-                $dsl->redirect( $redirect );
+                $dsl->app->redirect( $redirect );
             },
         );
     }
