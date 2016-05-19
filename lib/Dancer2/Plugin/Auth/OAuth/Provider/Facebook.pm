@@ -15,7 +15,7 @@ sub config { {
     query_params => {
         authorize => {
             response_type => 'code',
-            scope         => 'email',
+            scope         => 'email,public_profile,user_friends',
         }
     }
 } }
@@ -23,11 +23,17 @@ sub config { {
 sub post_process {
     my ($self, $session) = @_;
 
+    my $fields = '';
+    if ( exists $self->provider_settings->{fields} ) {
+        $fields = "&fields=".$self->provider_settings->{fields};
+    }
+
     my $session_data = $session->read('oauth');
 
     my $resp = $self->{ua}->request(
         GET $self->provider_settings->{urls}{user_info}."?access_token=".
-            $session_data->{facebook}{access_token}
+            $session_data->{facebook}{access_token}.
+            $fields
     );
 
     if( $resp->is_success ) {
