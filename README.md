@@ -43,6 +43,7 @@ The YAML below shows all available options.
             tokens:
               client_id: your_client_id
               client_secret: your_client_secret
+            fields: id,email,name,gender,picture
           Google:
             tokens:
               client_id: your_client_id
