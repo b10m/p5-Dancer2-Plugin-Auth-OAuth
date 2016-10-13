@@ -37,7 +37,7 @@
       },
       "runtime" : {
          "requires" : {
-            "Dancer2" : "0.150000",
+            "Dancer2" : "0.200001",
             "DateTime" : "0",
             "Digest::MD5" : "0",
             "HTTP::Message" : "0",
