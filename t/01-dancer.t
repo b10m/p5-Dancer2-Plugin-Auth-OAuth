@@ -69,7 +69,7 @@ test_psgi
                 },
                 facebook => {
                     response_type=> 'code',
-                    scope        => 'email',
+                    scope        => 'email,public_profile,user_friends',
                     client_id    => 'some_client_id',
                     redirect_uri => "http://localhost/auth_test/$provider/callback",
                 },
