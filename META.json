@@ -37,7 +37,7 @@
       },
       "runtime" : {
          "requires" : {
-            "Dancer2" : "0.200001",
+            "Dancer2" : "0.150000",
             "DateTime" : "0",
             "Digest::MD5" : "0",
             "HTTP::Message" : "0",
@@ -71,7 +71,7 @@
          "web" : "https://github.com/b10m/p5-Dancer2-Plugin-Auth-OAuth"
       }
    },
-   "version" : "0.09",
+   "version" : "0.10",
    "x_contributors" : [
       "B10m <menno@b10m.net>",
       "Biafra <paulo.a.ferreira@gmail.com>",

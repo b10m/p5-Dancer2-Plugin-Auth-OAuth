@@ -2,6 +2,9 @@ Revision history for Dancer2-Plugin-Auth-OAuth
 
 {{$NEXT}}
 
+0.10  2016-10-13 09:03:25 CEST
+        - merged github PR #10 (thanks biafra!)
+
 0.09  2015-12-30 11:44:44 CET
         - merged github PR #6 and #7
         - Removal of DSL, cause 'Using DSL in plugins is deprecated'
