@@ -24,9 +24,9 @@ you do with it afterwards is up to you.
 
 # CONFIGURATION
 
-The plugin comes with support for Facebook, Google, Twitter, GitHub and Stack
-Exchange (other providers aren't hard to add, send me a pull request when you
-add more!)
+The plugin comes with support for Facebook, Google, Twitter, GitHub, Stack
+Exchange and LinkedIn (other providers aren't hard to add, send me a pull
+request when you add more!)
 
 All it takes to use OAuth authentication for a given provider, is to add
 the configuration for it.
@@ -43,6 +43,7 @@ The YAML below shows all available options.
             tokens:
               client_id: your_client_id
               client_secret: your_client_secret
+            fields: id,email,name,gender,picture
           Google:
             tokens:
               client_id: your_client_id
@@ -61,6 +62,11 @@ The YAML below shows all available options.
                client_secret: your_client_secret
                key: your_key
              site: stackoverflow
+           Linkedin:
+             tokens:
+               client_id: your_client_id
+               client_secret: your_client_secret
+             fields: id,num-connections,picture-url,email-address
 
 \[\*\] default value, may be omitted.
 

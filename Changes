@@ -2,6 +2,10 @@ Revision history for Dancer2-Plugin-Auth-OAuth
 
 {{$NEXT}}
 
+0.11  2017-01-14 01:42:58 CET
+        - documentation fix as reported by biafra
+        - LinkedIn added
+
 0.10  2016-10-13 09:03:25 CEST
         - merged github PR #10 (thanks biafra!)
 
