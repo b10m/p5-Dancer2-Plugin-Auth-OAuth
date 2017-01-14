@@ -32,6 +32,9 @@ $mock_ua->map(qr{^https://api.github.com/user},                   HTTP::Response
 $mock_ua->map(qr{^https://stackexchange.com/oauth/access_token},  HTTP::Response->parse($http_responses{'stackexchange-access_token'}));
 $mock_ua->map(qr{^https://api.stackexchange.com/2.2/me},          HTTP::Response->parse($http_responses{'stackexchange-user_info'}));
 
+$mock_ua->map(qr{^https://www.linkedin.com/oauth/v2/accessToken}, HTTP::Response->parse($http_responses{'linkedin-access_token'}));
+$mock_ua->map(qr{^https://api.linkedin.com/v1/people/.*},         HTTP::Response->parse($http_responses{'linkedin-user_info'}));
+
 
 # setup dancer app
 {
@@ -56,7 +59,7 @@ test_psgi
     client => sub {
         my $cb  = shift;
 
-        for my $provider (qw(facebook google twitter github stackexchange)) {
+        for my $provider (qw(facebook google twitter github stackexchange linkedin)) {
             ### setup
             my $provider_module = "Dancer2::Plugin::Auth::OAuth::Provider::".ucfirst($provider);
             load $provider_module;
@@ -86,6 +89,11 @@ test_psgi
                 stackexchange => {
                     redirect_uri => "http://localhost/auth_test/$provider/callback",
                     client_id    => 'some_client_id',
+                },
+                linkedin => {
+                    redirect_uri => "http://localhost/auth_test/$provider/callback",
+                    client_id    => 'some_client_id',
+                    response_type=> 'code',
                 },
             );
             my $wanted_uri = URI->new( $provider_module->config->{urls}{authorize_url} );
@@ -213,6 +221,16 @@ test_psgi
                             location => "Sydney, Australia",
                         }],
                     },
+                },
+                linkedin => {
+                    access_token => 'accesstoken',
+                    expires_in => 5184000,
+                    user_info => {
+                        pictureUrl => 'https://media.licdn.com/mpr/mprx/hash',
+                        formattedName => 'Menno Blom',
+                        emailAddress => 'blom@cpan.org',
+                        id => 'someStr1ng',
+                    }
                 },
             );
             $res = $cb->(GET "/dump_session", ( Cookie => $cookie ));

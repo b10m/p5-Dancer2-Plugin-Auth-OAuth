@@ -27,3 +27,8 @@ plugins:
           client_secret: some_client_s3kr3t
           key: some_key
         site: stackoverflow
+      Linkedin:
+        tokens:
+          client_id: some_client_id
+          client_secret: some_client_s3kr3t
+        fields: id,formatted-name,picture-url,email-address
