@@ -188,7 +188,7 @@ sub callback {
                 $params = URI::Query->new( $response->content )->hash;
             }
 
-            for my $key (qw/access_token expires expires_in id_token token_type/) {
+            for my $key (qw/access_token expires expires_in id_token token_type id issued_at scope instance_url refresh_token signature/) {
                 $session_data->{$provider}{$key} = $params->{$key}
                     if $params->{$key};
             }
