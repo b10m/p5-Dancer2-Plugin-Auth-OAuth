@@ -72,7 +72,7 @@ The YAML below shows all available options.
 
 # AUTHOR
 
-Menno Blom &lt;blom@cpan.org>
+Menno Blom <blom@cpan.org>
 
 # COPYRIGHT
 
