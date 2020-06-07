@@ -99,7 +99,7 @@ The YAML below shows all available options.
 
 # AUTHOR
 
-Menno Blom <blom@cpan.org>
+Menno Blom &lt;blom@cpan.org>
 
 # COPYRIGHT
 
