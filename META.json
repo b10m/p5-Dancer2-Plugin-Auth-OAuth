@@ -46,6 +46,7 @@
             "LWP::UserAgent" : "0",
             "Module::Load" : "0",
             "Net::OAuth" : "0",
+            "Hash::Merge" : "0",
             "Scalar::Util" : "0",
             "URI::Query" : "0",
             "perl" : "5.008005"
@@ -86,4 +87,3 @@
    "x_serialization_backend" : "Cpanel::JSON::XS version 3.0210",
    "x_spdx_expression" : "Artistic-1.0-Perl OR GPL-1.0-or-later"
 }
-
