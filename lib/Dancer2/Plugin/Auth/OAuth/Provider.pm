@@ -20,7 +20,8 @@ sub new {
     }, $class;
 
     my $merge = Hash::Merge->new('LEFT_PRECEDENT');
-    my $config = $merge->merge($self->{settings}{providers}{$self->_provider}, $self->config);
+    my $config = $merge->merge($self->{settings}{providers}{$self->_provider}||{}, $self->config);
+
     $self->{settings}{providers}{$self->_provider} = $config;
 
     my $protocol_version = $self->provider_settings->{version} || 2;
