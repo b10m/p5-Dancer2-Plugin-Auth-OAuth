@@ -24,9 +24,9 @@ you do with it afterwards is up to you.
 
 # CONFIGURATION
 
-The plugin comes with support for Facebook, Google, Twitter, GitHub, Stack
-Exchange and LinkedIn (other providers aren't hard to add, send me a pull
-request when you add more!)
+The plugin comes with support for Facebook, Google, Microsoft (Azure AD),
+Twitter, GitHub, Stack Exchange and LinkedIn (other providers aren't hard to
+add, send me a pull request when you add more!)
 
 All it takes to use OAuth authentication for a given provider, is to add
 the configuration for it.
@@ -179,12 +179,12 @@ If you're authenticating in order to use the id_token issued, or if login
 requires a specific 'scope' setting, you can change these values in the initial
 calls like this within your yml config (example provided for AzureAD plugin).
 
-  Auth::OAuth:
-    providers:
-      AzureAD:
-        query_params:
-          authorize:
-            scope: 'Calendars.ReadWrite Contacts.Read Directory.Read.All Files.Read.All Group.Read.All GroupMember.Read.All Mail.ReadWrite openid People.Read Sites.Read.All Sites.ReadWrite.All User.Read User.ReadBasic.All Files.Read.All'
+    Auth::OAuth:
+      providers:
+        AzureAD:
+          query_params:
+            authorize:
+              scope: 'Calendars.ReadWrite Contacts.Read Directory.Read.All Files.Read.All Group.Read.All GroupMember.Read.All Mail.ReadWrite openid People.Read Sites.Read.All Sites.ReadWrite.All User.Read User.ReadBasic.All Files.Read.All'
 
 You do not need to list all other authorize attributes sent to the server,
 unless you want to change them from the default values set in the provider.
