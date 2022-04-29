@@ -30,7 +30,6 @@ sub post_process {
 
   my @seg = split(/\./, $session_data->{azuread}{id_token});
   if ($seg[1]) {
-    print STDERR "$seg[1]\n";
     my $dec = decode_base64($seg[1]);
     if ($dec) {
       eval {
@@ -60,7 +59,6 @@ sub post_process {
       # To-Do: logging error
     }
   }
-  # Fallback; if we don't have a user_info url or the decoding failed for some reason
   $session->write('oauth', $session_data);
   return 1;
 }
@@ -116,6 +114,11 @@ C<{unique_name}>
 If the user_info option is defined (which it is by default!), a corresponding
 call is made to that URL to find out more information about the user. This is
 stashed in the session key C<{oauth}{azuread}{user_info}>
+
+=head1 ADDING TENANT ID
+
+If you need to add a tenant ID to your calls, this should be done by replacing
+"common" in the authorize_url and access_token_url.
 
 =head2 PREVENTING USER LOOKUP WITH GRAPH
 
