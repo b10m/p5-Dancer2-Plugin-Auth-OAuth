@@ -12,7 +12,7 @@ Dancer2::Plugin::Auth::OAuth - OAuth for your Dancer2 app
 Dancer2::Plugin::Auth::OAuth is a Dancer2 plugin which tries to make OAuth
 authentication easy.
 
-The module is highly influenced by [Plack::Middleware::OAuth](https://metacpan.org/pod/Plack::Middleware::OAuth) and Dancer 1
+The module is highly influenced by [Plack::Middleware::OAuth](https://metacpan.org/pod/Plack%3A%3AMiddleware%3A%3AOAuth) and Dancer 1
 OAuth modules, but unlike the Dancer 1 versions, this plugin only needs
 configuration (look mom, no code needed!). It automatically sets up the
 needed routes (defaults to `/auth/$provider` and `/auth/$provider/callback`).
@@ -195,7 +195,7 @@ providers OAuth documentation.
 
 # AUTHOR
 
-Menno Blom &lt;blom@cpan.org>
+Menno Blom <blom@cpan.org>
 
 # COPYRIGHT
 
