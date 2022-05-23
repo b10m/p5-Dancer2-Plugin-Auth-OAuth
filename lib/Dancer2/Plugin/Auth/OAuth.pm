@@ -153,8 +153,8 @@ The YAML below shows all available options.
           fields: id,num-connections,picture-url,email-address
         VKontakte: # https://vk.com
           tokens:
-            client_id: '...'
-            client_secret: '...'
+            client_id: your_client_id
+            client_secret: your_client_secret
           fields: 'first_name,last_name,about,bdate,city,country,photo_max_orig,sex,site'
           api_version: '5.8'
         Odnoklassniki: # https://ok.ru
@@ -206,31 +206,31 @@ An example of a simple single system authentication. Note that once
 authenticated the user will continue to be authenticated until the Dancer2
 session has expired, whenever that might be:
 
-  hook before => sub {
-    my $session_data = session->read('oauth');
-    my $provider = "facebook"; # Lower case of the authentication plugin used
+    hook before => sub {
+        my $session_data = session->read('oauth');
+        my $provider = "facebook"; # Lower case of the authentication plugin used
 
-    if ((!defined $session_data || !defined $session_data->{$provider} || !defined $session_data->{$provider}{id_token}) && request->path !~ m{^/auth}) {
-      return forward "/auth/$provider";
-    }
-  };
+        if ((!defined $session_data || !defined $session_data->{$provider} || !defined $session_data->{$provider}{id_token}) && request->path !~ m{^/auth}) {
+          return forward "/auth/$provider";
+        }
+    };
 
 If you want to be sure they have a valid id_token at all times:
 
-  hook before => sub {
-    my $session_data = session->read('oauth');
-    my $provider = "facebook"; # Lower case of the authentication plugin used
+    hook before => sub {
+        my $session_data = session->read('oauth');
+        my $provider = "facebook"; # Lower case of the authentication plugin used
 
-    my $now = DateTime->now->epoch;
+        my $now = DateTime->now->epoch;
 
-    if ((!defined $session_data || !defined $session_data->{$provider} || !defined $session_data->{$provider}{id_token}) && request->path !~ m{^/auth}) {
-      return forward '/auth/$provider';
+        if ((!defined $session_data || !defined $session_data->{$provider} || !defined $session_data->{$provider}{id_token}) && request->path !~ m{^/auth}) {
+          return forward '/auth/$provider';
 
-    } elsif (defined $session_data->{$provider}{refresh_token} && defined $session_data->{$provider}{expires} && $session_data->{$provider}{expires} < $now && request->path !~ m{^/auth}) {
-      return forward "/auth/$provider/refresh";
+        } elsif (defined $session_data->{$provider}{refresh_token} && defined $session_data->{$provider}{expires} && $session_data->{$provider}{expires} < $now && request->path !~ m{^/auth}) {
+          return forward "/auth/$provider/refresh";
 
-    }
-  };
+        }
+    };
 
 in the case where you're using the refresh functionality, a failure of the
 refresh will send the user back to the error_url. If you want to them to instead
