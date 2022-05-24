@@ -220,6 +220,18 @@ sub _get_token {
                 $params = URI::Query->new( $response->content )->hash;
             }
 
+            # Error checking on the response from the server. If this is a refresh that failed we need to catch and return that fact
+            my $keys_found = 0;
+            for my $key (qw/access_token email user_id expires expires_in id_token token_type id issued_at scope instance_url refresh_token signature x_mailru_vid error/) {
+              if ($params->{$key}) {
+                $keys_found++;
+              }
+            }
+            if (!$keys_found) {
+              $self->{dsl}->app->log(debug => "Auth::OAuth::Provider::".$self->_provider.": Token request for grant_type ".$args{grant_type}." didn't return any known ID data. Assuming failed, and returning failed response.");
+              return undef;
+            }
+
             # Some servers don't return an issued_at or expires; Dancer app authors might need this to check if a refresh is required
             if (!defined $params->{"issued_at"}) {
               $params->{"issued_at"} = DateTime->now->epoch;
@@ -228,19 +240,12 @@ sub _get_token {
               $params->{"expires"} = $params->{"issued_at"} + $params->{"expires_in"};
             }
 
-            my $keys_found = 0;
             for my $key (qw/access_token email user_id expires expires_in id_token token_type id issued_at scope instance_url refresh_token signature x_mailru_vid error/) {
               if ($params->{$key}) {
                 $session_data->{$provider}{$key} = $params->{$key};
-                $keys_found++;
               }
             }
 
-            # Error checking on the response from the server. If this is a refresh that failed we need to catch and return that fact
-            if (!$keys_found) {
-              $self->{dsl}->app->log(debug => "Auth::OAuth::Provider::".$self->_provider.": Token request for grant_type ".$args{grant_type}." didn't return any known ID data. Assuming failed, and returning failed response.");
-              return undef;
-            }
         } else {
           $self->{dsl}->app->log(debug => "Auth::OAuth::Provider::".$self->_provider.": Token request for grant_type ".$args{grant_type}." failed with ".$response->status_line);
           return undef;
