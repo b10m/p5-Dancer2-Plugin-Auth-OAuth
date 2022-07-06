@@ -64,13 +64,13 @@
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/b10m/p5-Dancer2-Plugin-Auth-OAuth/issues"
+         "web" : "https://github.com/biafra/p5-Dancer2-Plugin-Auth-OAuth/issues"
       },
-      "homepage" : "https://github.com/b10m/p5-Dancer2-Plugin-Auth-OAuth",
+      "homepage" : "https://github.com/biafra/p5-Dancer2-Plugin-Auth-OAuth",
       "repository" : {
          "type" : "git",
-         "url" : "https://github.com/b10m/p5-Dancer2-Plugin-Auth-OAuth.git",
-         "web" : "https://github.com/b10m/p5-Dancer2-Plugin-Auth-OAuth"
+         "url" : "https://github.com/biafra/p5-Dancer2-Plugin-Auth-OAuth.git",
+         "web" : "https://github.com/biafra/p5-Dancer2-Plugin-Auth-OAuth"
       }
    },
    "version" : "0.18",
@@ -82,10 +82,11 @@
       "Menno Blom <menno.blom@booking.com>",
       "Mohammad S Anwar <mohammad.anwar@yahoo.com>",
       "Paulo Ferreira <biafra@moosaico.com>",
+      "Pero-Moretti <86256669+Pero-Moretti@users.noreply.github.com>",
       "Pero Moretti <pero.g.moretti@gmail.com>",
       "Peter Mottram (SysPete) <peter@sysnix.com>"
    ],
-   "x_generated_by_perl" : "v5.32.1",
+   "x_generated_by_perl" : "v5.34.0",
    "x_serialization_backend" : "Cpanel::JSON::XS version 4.27",
    "x_spdx_expression" : "Artistic-1.0-Perl OR GPL-1.0-or-later",
    "x_static_install" : 1
