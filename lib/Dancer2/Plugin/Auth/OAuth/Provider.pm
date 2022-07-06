@@ -221,8 +221,14 @@ sub _get_token {
             }
 
             # Error checking on the response from the server. If this is a refresh that failed we need to catch and return that fact
-            if (!defined $params->{id_token}) {
-              $self->{dsl}->app->log(debug => "Auth::OAuth::Provider::".$self->_provider.": Token request for grant_type ".$args{grant_type}." didn't return an id_token. Assuming failed, and returning failed response.");
+            my $keys_found = 0;
+            for my $key (qw/access_token email user_id expires expires_in id_token token_type id issued_at scope instance_url refresh_token signature x_mailru_vid error/) {
+              if ($params->{$key}) {
+                $keys_found++;
+              }
+            }
+            if (!$keys_found) {
+              $self->{dsl}->app->log(debug => "Auth::OAuth::Provider::".$self->_provider.": Token request for grant_type ".$args{grant_type}." didn't return any known ID data. Assuming failed, and returning failed response.");
               return undef;
             }
 
@@ -235,9 +241,11 @@ sub _get_token {
             }
 
             for my $key (qw/access_token email user_id expires expires_in id_token token_type id issued_at scope instance_url refresh_token signature x_mailru_vid error/) {
-                $session_data->{$provider}{$key} = $params->{$key}
-                    if $params->{$key};
+              if ($params->{$key}) {
+                $session_data->{$provider}{$key} = $params->{$key};
+              }
             }
+
         } else {
           $self->{dsl}->app->log(debug => "Auth::OAuth::Provider::".$self->_provider.": Token request for grant_type ".$args{grant_type}." failed with ".$response->status_line);
           return undef;
